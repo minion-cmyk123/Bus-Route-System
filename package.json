@@ -23,7 +23,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@electric-sql/pglite": "^0.3.0",
+    "@electric-sql/pglite": "^0.5.8",
     "@fastify/cookie": "^11.0.0",
     "@fastify/helmet": "^13.0.0",
     "@fastify/rate-limit": "^10.0.0",
