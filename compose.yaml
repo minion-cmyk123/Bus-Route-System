@@ -1,0 +1,30 @@
+# Local full-stack demonstration. No browser installation required.
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: transit
+      POSTGRES_PASSWORD: local-development-only
+      POSTGRES_DB: transit
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U transit -d transit']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  app:
+    build: .
+    environment:
+      NODE_ENV: development
+      APP_ORIGIN: http://localhost:3001
+      DATABASE_URL: postgresql://transit:local-development-only@db:5432/transit
+      DEMO_DATA: 'true'
+    ports:
+      - '127.0.0.1:3001:3001'
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  postgres:
